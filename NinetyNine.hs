@@ -32,6 +32,7 @@ module NinetyNine(myLast,
    encode,
    encodeModified,
    decodeModified,
+   encodeDirect,
 ) where
 
 -- Problem 1
@@ -123,3 +124,7 @@ decodeModified (x : xs) = let decodedtail = decodeModified xs in
    case x of
       Single z -> (z : decodedtail)
       Multiple count z -> take count (repeat z) ++ decodedtail
+
+-- Problem 13
+encodeDirect :: Eq a => [a] -> [SingleOrMultiple a]
+encodeDirect = encodeModified

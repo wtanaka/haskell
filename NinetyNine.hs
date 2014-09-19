@@ -24,6 +24,7 @@ module NinetyNine(myLast,
    myButLast,
    elementAt,
    myLength,
+   myReverse,
 ) where
 
 -- Problem 1
@@ -50,3 +51,8 @@ elementAt (x : xs) number = elementAt xs (number-1)
 myLength :: [a] -> Int
 myLength [] = 0
 myLength (x : xs) = 1 + myLength xs
+
+-- Problem 5
+myReverse :: [a] -> [a]
+myReverse [] = []
+myReverse (x : xs) = myReverse xs ++ [x]

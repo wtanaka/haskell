@@ -34,6 +34,7 @@ module NinetyNine(myLast,
    decodeModified,
    encodeDirect,
    dupli,
+   repli,
 ) where
 
 -- Problem 1
@@ -134,3 +135,8 @@ encodeDirect = encodeModified
 dupli :: [a] -> [a]
 dupli [] = []
 dupli (x : xs) = (x : (x : dupli xs))
+
+-- Problem 15
+repli :: [a] -> Int -> [a]
+repli [] _ = []
+repli (x : xs) count = take count (repeat x) ++ repli xs count

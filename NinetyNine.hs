@@ -31,6 +31,7 @@ module NinetyNine(myLast,
    pack,
    encode,
    encodeModified,
+   decodeModified,
 ) where
 
 -- Problem 1
@@ -114,3 +115,11 @@ encodeModified (x : xs) = let encodedxs = encodeModified xs in
       Multiple count z -> if x == z
          then (Multiple (1+count) x : tail encodedxs)
          else (Single x : encodedxs)
+
+-- Problem 12
+decodeModified :: [SingleOrMultiple a] -> [a]
+decodeModified [] = []
+decodeModified (x : xs) = let decodedtail = decodeModified xs in
+   case x of
+      Single z -> (z : decodedtail)
+      Multiple count z -> take count (repeat z) ++ decodedtail

@@ -29,6 +29,7 @@ module NinetyNine(myLast,
    flatten,
    compress,
    pack,
+   encode,
 ) where
 
 -- Problem 1
@@ -89,3 +90,12 @@ pack (x : zs) = let packzs = pack zs in
       if x == headhead
       then ((x : head packzs) : tail packzs)
       else ([x] : packzs)
+
+-- Problem 10
+encode :: Eq a => [a] -> [(Int, a)]
+encode [] = []
+encode [x] = [(1,  x)]
+encode (x : xs) = let encodexs = encode xs in
+   if x == snd (head encodexs)
+   then ((1 + fst (head encodexs), x) : tail encodexs)
+   else ((1, x) : encodexs)

@@ -36,6 +36,7 @@ module NinetyNine(myLast,
    dupli,
    repli,
    dropEvery,
+   split,
 ) where
 
 -- Problem 1
@@ -152,3 +153,11 @@ dropHelper :: [a]
 dropHelper [] _ _ = []
 dropHelper (x : xs) period 0 = dropHelper xs period (period-1)
 dropHelper (x : xs) period skip = x : dropHelper xs period (skip-1)
+
+-- Problem 17
+split :: [a] -> Int -> ([a], [a])
+split [] 0 = ([], [])
+split [] _ = error "Not enough elements"
+split list 0 = ([], list)
+split (x : xs) count = let splittail = split xs (count-1) in
+   ((x : fst splittail), snd splittail)

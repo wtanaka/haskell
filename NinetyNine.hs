@@ -22,6 +22,7 @@
 -- http://www.haskell.org/haskellwiki/99_questions/1_to_10
 module NinetyNine(myLast,
    myButLast,
+   elementAt,
 ) where
 
 -- Problem 1
@@ -36,3 +37,10 @@ myButLast [] = error "Empty list has no second to last element"
 myButLast (x : []) = error "One-item list has no second to last element"
 myButLast (x : y : []) = x
 myButLast x = myButLast (tail x)
+
+-- Problem 3
+elementAt :: [a] -> Int -> a
+elementAt [] _ = error "Empty list has no elements"
+elementAt (x : _) 0 = x
+elementAt [x] _ = error "Index out of bounds"
+elementAt (x : xs) number = elementAt xs (number-1)

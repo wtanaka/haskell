@@ -23,6 +23,7 @@
 module NinetyNine(myLast,
    myButLast,
    elementAt,
+   myLength,
 ) where
 
 -- Problem 1
@@ -44,3 +45,8 @@ elementAt [] _ = error "Empty list has no elements"
 elementAt (x : _) 0 = x
 elementAt [x] _ = error "Index out of bounds"
 elementAt (x : xs) number = elementAt xs (number-1)
+
+-- Problem 4
+myLength :: [a] -> Int
+myLength [] = 0
+myLength (x : xs) = 1 + myLength xs

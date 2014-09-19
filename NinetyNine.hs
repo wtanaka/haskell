@@ -27,6 +27,7 @@ module NinetyNine(myLast,
    myReverse,
    isPalindrome,
    flatten,
+   compress,
 ) where
 
 -- Problem 1
@@ -69,3 +70,11 @@ flatten :: NestedList a -> [a]
 flatten (Elem x) = [x]
 flatten (List []) = []
 flatten (List (x : xs)) = flatten x ++ (flatten (List xs))
+
+-- Problem 8
+compress :: Eq a => [a] -> [a]
+compress [] = []
+compress [x] = [x]
+compress (x : y : zs) = if x == y
+   then compress (y : zs)
+   else [x] ++ compress (y : zs)

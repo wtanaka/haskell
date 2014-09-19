@@ -33,6 +33,7 @@ module NinetyNine(myLast,
    encodeModified,
    decodeModified,
    encodeDirect,
+   dupli,
 ) where
 
 -- Problem 1
@@ -128,3 +129,8 @@ decodeModified (x : xs) = let decodedtail = decodeModified xs in
 -- Problem 13
 encodeDirect :: Eq a => [a] -> [SingleOrMultiple a]
 encodeDirect = encodeModified
+
+-- Problem 14
+dupli :: [a] -> [a]
+dupli [] = []
+dupli (x : xs) = (x : (x : dupli xs))

@@ -38,6 +38,8 @@ module NinetyNine(myLast,
    dropEvery,
    split,
    slice,
+   _plusRem,
+   rotate,
 ) where
 
 -- Problem 1
@@ -173,3 +175,20 @@ slice [] _ _ = error "Out of bounds"
 slice (x : xs) 1 1 = [x]
 slice (x : xs) 1 end = x : slice xs 1 (end-1)
 slice (x : xs) start end = slice xs (start-1) (end-1)
+
+-- Problem 18
+_plusRem :: Int -> Int -> Int
+_plusRem num denom = rem nonnegative denom
+   where mightbenegative = (rem num denom)
+         nonnegative = if mightbenegative < 0
+            then (mightbenegative + abs denom)
+            else mightbenegative
+
+rotate :: [a] -> Int -> [a]
+rotate list count = let listlength = length list in 
+   rotateHelper list listlength (_plusRem count listlength)
+rotateHelper :: [a] -> Int -> Int -> [a]
+rotateHelper [] _ _ = []
+rotateHelper list _ 0 = list
+rotateHelper list listlength count =
+   (slice list 1 count) ++ (slice list (count+1) listlength)

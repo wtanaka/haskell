@@ -28,6 +28,7 @@ module NinetyNine(myLast,
    isPalindrome,
    flatten,
    compress,
+   pack,
 ) where
 
 -- Problem 1
@@ -78,3 +79,13 @@ compress [x] = [x]
 compress (x : y : zs) = if x == y
    then compress (y : zs)
    else [x] ++ compress (y : zs)
+
+-- Problem 9
+pack :: Eq a => [a] -> [[a]]
+pack [] = []
+pack [x] = [[x]]
+pack (x : zs) = let packzs = pack zs in
+   let headhead = head (head packzs) in
+      if x == headhead
+      then ((x : head packzs) : tail packzs)
+      else ([x] : packzs)

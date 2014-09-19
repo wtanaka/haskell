@@ -21,6 +21,7 @@
 --
 -- http://www.haskell.org/haskellwiki/99_questions/1_to_10
 module NinetyNine(myLast,
+   myButLast,
 ) where
 
 -- Problem 1
@@ -28,3 +29,10 @@ myLast :: [a] -> a
 myLast [] = error "Empty list has no last element"
 myLast (x : []) = x
 myLast (x : xs) = myLast xs
+
+-- Problem 2
+myButLast :: [a] -> a
+myButLast [] = error "Empty list has no second to last element"
+myButLast (x : []) = error "One-item list has no second to last element"
+myButLast (x : y : []) = x
+myButLast x = myButLast (tail x)

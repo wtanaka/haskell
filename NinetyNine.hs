@@ -30,6 +30,7 @@ module NinetyNine(myLast,
    compress,
    pack,
    encode,
+   encodeModified,
 ) where
 
 -- Problem 1
@@ -99,3 +100,17 @@ encode (x : xs) = let encodexs = encode xs in
    if x == snd (head encodexs)
    then ((1 + fst (head encodexs), x) : tail encodexs)
    else ((1, x) : encodexs)
+
+-- Problem 11
+data SingleOrMultiple a = Single a | Multiple Int a deriving (Show)
+encodeModified :: Eq a => [a] -> [SingleOrMultiple a]
+encodeModified [] = []
+encodeModified [x] = [Single x]
+encodeModified (x : xs) = let encodedxs = encodeModified xs in
+   case head encodedxs of
+      Single z -> if x == z
+         then (Multiple 2 x : tail encodedxs)
+         else (Single x : encodedxs)
+      Multiple count z -> if x == z
+         then (Multiple (1+count) x : tail encodedxs)
+         else (Single x : encodedxs)

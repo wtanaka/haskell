@@ -26,6 +26,7 @@ module NinetyNine(myLast,
    myLength,
    myReverse,
    isPalindrome,
+   flatten,
 ) where
 
 -- Problem 1
@@ -61,3 +62,10 @@ myReverse (x : xs) = myReverse xs ++ [x]
 -- Problem 6
 isPalindrome :: Eq a => [a] -> Bool
 isPalindrome xs = (xs == (reverse xs))
+
+-- Problem 7
+data NestedList a = Elem a | List [NestedList a]
+flatten :: NestedList a -> [a]
+flatten (Elem x) = [x]
+flatten (List []) = []
+flatten (List (x : xs)) = flatten x ++ (flatten (List xs))

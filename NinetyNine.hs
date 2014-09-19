@@ -37,6 +37,7 @@ module NinetyNine(myLast,
    repli,
    dropEvery,
    split,
+   slice,
 ) where
 
 -- Problem 1
@@ -161,3 +162,14 @@ split [] _ = error "Not enough elements"
 split list 0 = ([], list)
 split (x : xs) count = let splittail = split xs (count-1) in
    ((x : fst splittail), snd splittail)
+
+-- Problem 18
+slice :: [a]
+   -> Int -- start
+   -> Int -- end
+   -> [a]
+slice _ start _ | start < 1 = error "Non-positive start"
+slice [] _ _ = error "Out of bounds"
+slice (x : xs) 1 1 = [x]
+slice (x : xs) 1 end = x : slice xs 1 (end-1)
+slice (x : xs) start end = slice xs (start-1) (end-1)

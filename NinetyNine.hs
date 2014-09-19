@@ -35,6 +35,7 @@ module NinetyNine(myLast,
    encodeDirect,
    dupli,
    repli,
+   dropEvery,
 ) where
 
 -- Problem 1
@@ -140,3 +141,14 @@ dupli (x : xs) = (x : (x : dupli xs))
 repli :: [a] -> Int -> [a]
 repli [] _ = []
 repli (x : xs) count = take count (repeat x) ++ repli xs count
+
+-- Problem 16
+dropEvery :: [a] -> Int -> [a]
+dropEvery list count = dropHelper list count (count-1)
+dropHelper :: [a]
+   -> Int -- period
+   -> Int -- skip
+   -> [a]
+dropHelper [] _ _ = []
+dropHelper (x : xs) period 0 = dropHelper xs period (period-1)
+dropHelper (x : xs) period skip = x : dropHelper xs period (skip-1)

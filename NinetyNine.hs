@@ -25,6 +25,7 @@ module NinetyNine(myLast,
    elementAt,
    myLength,
    myReverse,
+   isPalindrome,
 ) where
 
 -- Problem 1
@@ -56,3 +57,7 @@ myLength (x : xs) = 1 + myLength xs
 myReverse :: [a] -> [a]
 myReverse [] = []
 myReverse (x : xs) = myReverse xs ++ [x]
+
+-- Problem 6
+isPalindrome :: Eq a => [a] -> Bool
+isPalindrome xs = (xs == (reverse xs))

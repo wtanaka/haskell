@@ -68,7 +68,7 @@ elementAt (x : xs) number = elementAt xs (number-1)
 increment :: Int -> a -> Int
 increment x _ = x + 1
 myLength :: [a] -> Int
-myLength xs = foldl' increment 0 xs
+myLength = foldl' increment 0
 
 -- Problem 5
 myReverse :: [a] -> [a]

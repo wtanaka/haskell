@@ -179,7 +179,7 @@ slice (x : xs) 1 1 = [x]
 slice (x : xs) 1 end = x : slice xs 1 (end-1)
 slice (x : xs) start end = slice xs (start-1) (end-1)
 
--- Problem 18
+-- Problem 19
 _plusRem :: Int -> Int -> Int
 _plusRem num denom = rem nonnegative denom
    where mightbenegative = rem num denom
@@ -194,4 +194,6 @@ rotateHelper :: [a] -> Int -> Int -> [a]
 rotateHelper [] _ _ = []
 rotateHelper list _ 0 = list
 rotateHelper list listlength count =
-   slice list 1 count ++ slice list (count+1) listlength
+   slice list (count+1) listlength ++ slice list 1 count
+
+

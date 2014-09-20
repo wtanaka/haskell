@@ -41,6 +41,7 @@ module NinetyNine(myLast,
    _plusRem,
    rotate,
    removeAt,
+   insertAt,
 ) where
 
 import Data.List
@@ -203,3 +204,7 @@ removeAt 1 (x : xs) = (x, xs)
 removeAt index (x : xs) = let (removed, remainder) = removeAt (index-1) xs
    in (removed, x : remainder)
 
+-- Problem 21
+insertAt :: a -> [a] -> Int -> [a]
+insertAt thing list 1 = thing : list
+insertAt thing (x : xs) pos = x : insertAt thing xs (pos-1)

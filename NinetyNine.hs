@@ -74,14 +74,14 @@ myReverse (x : xs) = myReverse xs ++ [x]
 
 -- Problem 6
 isPalindrome :: Eq a => [a] -> Bool
-isPalindrome xs = (xs == (reverse xs))
+isPalindrome xs = xs == reverse xs
 
 -- Problem 7
 data NestedList a = Elem a | List [NestedList a]
 flatten :: NestedList a -> [a]
 flatten (Elem x) = [x]
 flatten (List []) = []
-flatten (List (x : xs)) = flatten x ++ (flatten (List xs))
+flatten (List (x : xs)) = flatten x ++ flatten (List xs)
 
 -- Problem 8
 compress :: Eq a => [a] -> [a]
@@ -89,7 +89,7 @@ compress [] = []
 compress [x] = [x]
 compress (x : y : zs) = if x == y
    then compress (y : zs)
-   else [x] ++ compress (y : zs)
+   else x : compress (y : zs)
 
 -- Problem 9
 pack :: Eq a => [a] -> [[a]]
@@ -98,8 +98,8 @@ pack [x] = [[x]]
 pack (x : zs) = let packzs = pack zs in
    let headhead = head (head packzs) in
       if x == headhead
-      then ((x : head packzs) : tail packzs)
-      else ([x] : packzs)
+      then (x : head packzs) : tail packzs
+      else [x] : packzs
 
 -- Problem 10
 encode :: Eq a => [a] -> [(Int, a)]
@@ -107,8 +107,8 @@ encode [] = []
 encode [x] = [(1,  x)]
 encode (x : xs) = let encodexs = encode xs in
    if x == snd (head encodexs)
-   then ((1 + fst (head encodexs), x) : tail encodexs)
-   else ((1, x) : encodexs)
+   then (1 + fst (head encodexs), x) : tail encodexs
+   else (1, x) : encodexs
 
 -- Problem 11
 data SingleOrMultiple a = Single a | Multiple Int a deriving (Show)
@@ -118,19 +118,19 @@ encodeModified [x] = [Single x]
 encodeModified (x : xs) = let encodedxs = encodeModified xs in
    case head encodedxs of
       Single z -> if x == z
-         then (Multiple 2 x : tail encodedxs)
-         else (Single x : encodedxs)
+         then Multiple 2 x : tail encodedxs
+         else Single x : encodedxs
       Multiple count z -> if x == z
-         then (Multiple (1+count) x : tail encodedxs)
-         else (Single x : encodedxs)
+         then Multiple (1+count) x : tail encodedxs
+         else Single x : encodedxs
 
 -- Problem 12
 decodeModified :: [SingleOrMultiple a] -> [a]
 decodeModified [] = []
 decodeModified (x : xs) = let decodedtail = decodeModified xs in
    case x of
-      Single z -> (z : decodedtail)
-      Multiple count z -> take count (repeat z) ++ decodedtail
+      Single z -> z : decodedtail
+      Multiple count z -> replicate count z ++ decodedtail
 
 -- Problem 13
 encodeDirect :: Eq a => [a] -> [SingleOrMultiple a]
@@ -139,12 +139,12 @@ encodeDirect = encodeModified
 -- Problem 14
 dupli :: [a] -> [a]
 dupli [] = []
-dupli (x : xs) = (x : (x : dupli xs))
+dupli (x : xs) = x : (x : dupli xs)
 
 -- Problem 15
 repli :: [a] -> Int -> [a]
 repli [] _ = []
-repli (x : xs) count = take count (repeat x) ++ repli xs count
+repli (x : xs) count = replicate count x ++ repli xs count
 
 -- Problem 16
 dropEvery :: [a] -> Int -> [a]
@@ -163,7 +163,7 @@ split [] 0 = ([], [])
 split [] _ = error "Not enough elements"
 split list 0 = ([], list)
 split (x : xs) count = let splittail = split xs (count-1) in
-   ((x : fst splittail), snd splittail)
+   (x : fst splittail, snd splittail)
 
 -- Problem 18
 slice :: [a]
@@ -179,9 +179,9 @@ slice (x : xs) start end = slice xs (start-1) (end-1)
 -- Problem 18
 _plusRem :: Int -> Int -> Int
 _plusRem num denom = rem nonnegative denom
-   where mightbenegative = (rem num denom)
+   where mightbenegative = rem num denom
          nonnegative = if mightbenegative < 0
-            then (mightbenegative + abs denom)
+            then mightbenegative + abs denom
             else mightbenegative
 
 rotate :: [a] -> Int -> [a]
@@ -191,4 +191,4 @@ rotateHelper :: [a] -> Int -> Int -> [a]
 rotateHelper [] _ _ = []
 rotateHelper list _ 0 = list
 rotateHelper list listlength count =
-   (slice list 1 count) ++ (slice list (count+1) listlength)
+   slice list 1 count ++ slice list (count+1) listlength

@@ -8,10 +8,10 @@ import Text.Printf
 main = mapM_ (\(s,a) -> printf "%-25s: " s >> a) tests
 
 prop_plusRem_nonnegative num denom = denom /= 0
-   ==> (NinetyNine._plusRem num denom) >= 0
+   ==> NinetyNine._plusRem num denom >= 0
 
 prop_plusRem_lessthandenom num denom = denom /= 0
-   ==> (NinetyNine._plusRem num denom) < abs denom
+   ==> NinetyNine._plusRem num denom < abs denom
 
 prop_rotate_reversible xs count =
    NinetyNine.rotate (NinetyNine.rotate xs count) (-count) == xs

@@ -42,6 +42,8 @@ module NinetyNine(myLast,
    rotate,
 ) where
 
+import Data.List
+
 -- Problem 1
 myLast :: [a] -> a
 myLast [] = error "Empty list has no last element"
@@ -63,9 +65,10 @@ elementAt [x] _ = error "Index out of bounds"
 elementAt (x : xs) number = elementAt xs (number-1)
 
 -- Problem 4
+increment :: Int -> a -> Int
+increment x _ = x + 1
 myLength :: [a] -> Int
-myLength [] = 0
-myLength (x : xs) = 1 + myLength xs
+myLength xs = foldl' increment 0 xs
 
 -- Problem 5
 myReverse :: [a] -> [a]

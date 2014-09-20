@@ -40,6 +40,7 @@ module NinetyNine(myLast,
    slice,
    _plusRem,
    rotate,
+   removeAt,
 ) where
 
 import Data.List
@@ -196,4 +197,9 @@ rotateHelper list _ 0 = list
 rotateHelper list listlength count =
    slice list (count+1) listlength ++ slice list 1 count
 
+-- Problem 20
+removeAt :: Int -> [a] -> (a, [a])
+removeAt 1 (x : xs) = (x, xs)
+removeAt index (x : xs) = let (removed, remainder) = removeAt (index-1) xs
+   in (removed, x : remainder)
 

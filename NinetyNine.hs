@@ -42,6 +42,7 @@ module NinetyNine(myLast,
    rotate,
    removeAt,
    insertAt,
+   range,
 ) where
 
 import Data.List
@@ -208,3 +209,10 @@ removeAt index (x : xs) = let (removed, remainder) = removeAt (index-1) xs
 insertAt :: a -> [a] -> Int -> [a]
 insertAt thing list 1 = thing : list
 insertAt thing (x : xs) pos = x : insertAt thing xs (pos-1)
+
+-- Problem 22
+range :: Int -> Int -> [Int]
+range x y
+   | x == y = [x]
+   | x < y = (x : range (x+1) y)
+   | otherwise = error "arguments out of order"

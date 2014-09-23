@@ -193,7 +193,7 @@ _plusRem num denom = rem nonnegative denom
             else mightbenegative
 
 rotate :: [a] -> Int -> [a]
-rotate list count = let listlength = length list in 
+rotate list count = let listlength = length list in
    rotateHelper list listlength (_plusRem count listlength)
 rotateHelper :: [a] -> Int -> Int -> [a]
 rotateHelper [] _ _ = []
@@ -220,9 +220,6 @@ range x y
    | otherwise = error "arguments out of order"
 
 -- Problem 23
-deindex :: ([a], Int) -> a
-deindex (list, index) = list !! index
-
 -- Generate N random numbers in the range (a, a)
 replicateRandomR :: (RandomGen g, Random a) => Int -> (a, a) -> g -> ([a], g)
 replicateRandomR 0 range gen = ([], gen)

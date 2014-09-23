@@ -7,3 +7,6 @@ lint:
 .PHONY: test
 test:
 	./testsuite/runtests.sh
+
+clean:
+	rm -f *~

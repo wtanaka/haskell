@@ -43,9 +43,11 @@ module NinetyNine(myLast,
    removeAt,
    insertAt,
    range,
+   rnd_select,
 ) where
 
 import Data.List
+import System.Random (RandomGen, Random, randomR, getStdGen, setStdGen)
 
 -- Problem 1
 myLast :: [a] -> a
@@ -214,5 +216,27 @@ insertAt thing (x : xs) pos = x : insertAt thing xs (pos-1)
 range :: Int -> Int -> [Int]
 range x y
    | x == y = [x]
-   | x < y = (x : range (x+1) y)
+   | x < y = x : range (x+1) y
    | otherwise = error "arguments out of order"
+
+-- Problem 23
+deindex :: ([a], Int) -> a
+deindex (list, index) = list !! index
+
+-- Generate N random numbers in the range (a, a)
+replicateRandomR :: (RandomGen g, Random a) => Int -> (a, a) -> g -> ([a], g)
+replicateRandomR 0 range gen = ([], gen)
+replicateRandomR count range gen = let
+   (as, g1) = replicateRandomR (count-1) range gen
+   (a, g2) = randomR range g1
+   in (a : as, g2)
+
+rndSelect :: [a] -> Int -> IO [a]
+rndSelect list count = do
+   gen <- getStdGen
+   let (indexes, newGen) = replicateRandomR count (0, length list - 1) gen
+      in do
+         setStdGen newGen
+         return [ list !! i | i <- indexes ]
+
+rnd_select = rndSelect

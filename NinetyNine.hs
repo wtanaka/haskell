@@ -50,6 +50,7 @@ module NinetyNine(myLast,
    myGCD,
    coprime,
    totient,
+   primeFactors,
 ) where
 
 import Data.List
@@ -320,3 +321,18 @@ coprime a b = 1 == myGCD a b
 totient :: Int -> Int
 totient 1 = 1
 totient n = length . filter (coprime n) $ [1..n-1]
+
+-- Problem 35
+primeFactorHelper :: [Int] -> Int -> [Int]
+primeFactorHelper _ n
+   | n < 1 = error "only supports positive numbers"
+primeFactorHelper listSoFar 2 = 2 : listSoFar
+primeFactorHelper listSoFar n = let
+   ceil = ceiling (sqrt (fromIntegral n))
+   factor = take 1 [k | k <- [2..ceil], n `rem` k == 0 && isPrime k]
+   in if factor == []
+      then n : listSoFar
+      else primeFactorHelper (head factor : listSoFar) (n `quot` head factor)
+
+primeFactors :: Int -> [Int]
+primeFactors = reverse . primeFactorHelper []

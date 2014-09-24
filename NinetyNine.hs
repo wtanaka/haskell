@@ -55,6 +55,7 @@ module NinetyNine(myLast,
    totient2,
 ) where
 
+import Control.Arrow
 import Data.List
 import qualified Data.Set as Set
 import System.Random (RandomGen, Random, randomR, getStdGen, setStdGen)
@@ -305,7 +306,7 @@ isPrime n | n < 1 = error "only positive numbers accepted"
 isPrime 1 = False
 isPrime 2 = True
 isPrime n = let ceil = ceiling (sqrt (fromIntegral n))
-   in all (0/=) [n `rem` k | k <- [2..ceil]]
+   in notElem 0 [n `rem` k | k <- [2..ceil]]
 
 -- Problem 32
 myGCDHelper :: Int -> Int -> Int
@@ -332,7 +333,7 @@ primeFactorHelper listSoFar 2 = 2 : listSoFar
 primeFactorHelper listSoFar n = let
    ceil = ceiling (sqrt (fromIntegral n))
    factor = take 1 [k | k <- [2..ceil], n `rem` k == 0 && isPrime k]
-   in if factor == []
+   in if null factor
       then n : listSoFar
       else primeFactorHelper (head factor : listSoFar) (n `quot` head factor)
 
@@ -341,11 +342,11 @@ primeFactors = reverse . primeFactorHelper []
 
 -- Problem 36
 primeFactorsMult :: Int -> [(Int, Int)]
-primeFactorsMult = map (\x -> (snd x, fst x)) . encode . primeFactors
+primeFactorsMult = map (snd Control.Arrow.&&& fst) . encode . primeFactors
 
 prime_factors_mult = primeFactorsMult
 
 -- Problem 37
 totient2 :: Int -> Int
 totient2 1 = 1
-totient2 n = foldl (*) 1 [(p - 1) * p ^ (m-1) | (p, m) <- prime_factors_mult n]
+totient2 n = product [(p - 1) * p ^ (m-1) | (p, m) <- prime_factors_mult n]

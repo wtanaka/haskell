@@ -51,6 +51,7 @@ module NinetyNine(myLast,
    coprime,
    totient,
    primeFactors,
+   prime_factors_mult,
 ) where
 
 import Data.List
@@ -336,3 +337,9 @@ primeFactorHelper listSoFar n = let
 
 primeFactors :: Int -> [Int]
 primeFactors = reverse . primeFactorHelper []
+
+-- Problem 36
+primeFactorsMult :: Int -> [(Int, Int)]
+primeFactorsMult = map (\x -> (snd x, fst x)) . encode . primeFactors
+
+prime_factors_mult = primeFactorsMult

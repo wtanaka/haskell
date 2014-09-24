@@ -47,6 +47,7 @@ module NinetyNine(myLast,
    diff_select,
    combinations,
    isPrime,
+   myGCD,
 ) where
 
 import Data.List
@@ -300,3 +301,11 @@ isPrime 1 = False
 isPrime 2 = True
 isPrime n = let ceil = ceiling (sqrt (fromIntegral n))
    in all (0/=) [n `rem` k | k <- [2..ceil]]
+
+-- Problem 32
+myGCDHelper :: Int -> Int -> Int
+myGCDHelper a 0 = a
+myGCDHelper a b = myGCD b (a `rem` b)
+
+myGCD :: Int -> Int -> Int
+myGCD a b = abs (myGCDHelper a b)

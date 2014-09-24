@@ -52,6 +52,7 @@ module NinetyNine(myLast,
    totient,
    primeFactors,
    prime_factors_mult,
+   totient2,
 ) where
 
 import Data.List
@@ -343,3 +344,8 @@ primeFactorsMult :: Int -> [(Int, Int)]
 primeFactorsMult = map (\x -> (snd x, fst x)) . encode . primeFactors
 
 prime_factors_mult = primeFactorsMult
+
+-- Problem 37
+totient2 :: Int -> Int
+totient2 1 = 1
+totient2 n = foldl (*) 1 [(p - 1) * p ^ (m-1) | (p, m) <- prime_factors_mult n]

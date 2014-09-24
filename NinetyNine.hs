@@ -48,6 +48,7 @@ module NinetyNine(myLast,
    combinations,
    isPrime,
    myGCD,
+   coprime,
 ) where
 
 import Data.List
@@ -309,3 +310,7 @@ myGCDHelper a b = myGCD b (a `rem` b)
 
 myGCD :: Int -> Int -> Int
 myGCD a b = abs (myGCDHelper a b)
+
+-- Problem 33
+coprime :: Int -> Int -> Bool
+coprime a b = 1 == myGCD a b

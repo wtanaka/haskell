@@ -350,3 +350,18 @@ prime_factors_mult = primeFactorsMult
 totient2 :: Int -> Int
 totient2 1 = 1
 totient2 n = product [(p - 1) * p ^ (m-1) | (p, m) <- prime_factors_mult n]
+
+-- Problem 38
+--
+--    Wed Sep 24 09:17 2014 Time and Allocation Profiling Report  (Final)
+--
+--       ProblemThirtyEight +RTS -p -RTS
+--
+--    total time  =        0.01 secs   (10 ticks @ 1000 us, 1 processor)
+--    total alloc =   3,988,384 bytes  (excludes profiling overheads)
+--
+--                individual     inherited
+-- COST CENTRE   %time %alloc   %time %alloc
+--
+--    totient     20.0   13.0   100.0   98.7
+--    totient2     0.0    0.0     0.0    0.2

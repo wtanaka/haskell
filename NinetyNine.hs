@@ -55,6 +55,8 @@ module NinetyNine(myLast,
    totient2,
    primesR,
    goldbach,
+   goldbachList,
+   goldbachList',
 ) where
 
 import Control.Arrow
@@ -383,3 +385,14 @@ goldbach n
    | otherwise = let
       ceil = quot n 2
       in head $ filter (isPrime . snd) [(k, n - k) | k <- [2..ceil], isPrime k]
+
+-- Problem 41
+goldbachList :: Int -> Int -> [(Int, Int)]
+goldbachList a b = [goldbach n | n <- [a..b], even n]
+
+bothGreaterThan :: Int -> (Int, Int) -> Bool
+bothGreaterThan threshold (a, b) = a > threshold && b > threshold
+
+goldbachList' :: Int -> Int -> Int -> [(Int, Int)]
+goldbachList' low high threshold =
+   filter (bothGreaterThan threshold) $ goldbachList low high

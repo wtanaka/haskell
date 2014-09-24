@@ -53,6 +53,7 @@ module NinetyNine(myLast,
    primeFactors,
    prime_factors_mult,
    totient2,
+   primesR,
 ) where
 
 import Control.Arrow
@@ -365,3 +366,10 @@ totient2 n = product [(p - 1) * p ^ (m-1) | (p, m) <- prime_factors_mult n]
 --
 --    totient     20.0   13.0   100.0   98.7
 --    totient2     0.0    0.0     0.0    0.2
+
+-- Problem 39
+primesR :: Int -> Int -> [Int]
+primesR low high
+   | low > high = error "low limit must be at most equal to high limit"
+   | low < 1 || high < 1 = error "inputs must be positive"
+   | otherwise = [n | n <- [low..high], isPrime n]

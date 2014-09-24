@@ -49,6 +49,7 @@ module NinetyNine(myLast,
    isPrime,
    myGCD,
    coprime,
+   totient,
 ) where
 
 import Data.List
@@ -314,3 +315,8 @@ myGCD a b = abs (myGCDHelper a b)
 -- Problem 33
 coprime :: Int -> Int -> Bool
 coprime a b = 1 == myGCD a b
+
+-- Problem 34
+totient :: Int -> Int
+totient 1 = 1
+totient n = length . filter (coprime n) $ [1..n-1]

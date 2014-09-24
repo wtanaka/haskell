@@ -44,9 +44,11 @@ module NinetyNine(myLast,
    insertAt,
    range,
    rnd_select,
+   diff_select,
 ) where
 
 import Data.List
+import qualified Data.Set as Set
 import System.Random (RandomGen, Random, randomR, getStdGen, setStdGen)
 
 -- Problem 1
@@ -220,7 +222,7 @@ range x y
    | otherwise = error "arguments out of order"
 
 -- Problem 23
--- Generate N random numbers in the range (a, a)
+-- Generate N random numbers in the range (a, a) with replacement
 replicateRandomR :: (RandomGen g, Random a) => Int -> (a, a) -> g -> ([a], g)
 replicateRandomR 0 range gen = ([], gen)
 replicateRandomR count range gen = let
@@ -237,3 +239,30 @@ rndSelect list count = do
          return [ list !! i | i <- indexes ]
 
 rnd_select = rndSelect
+
+-- Problem 24
+-- Generate N random numbers in the range (a, a) without replacement
+nrRepicateRandomRHelper :: (RandomGen g, Ord a, Random a)
+   => Int -> (a, a) -> Set.Set a -> g -> (Set.Set a, g)
+nrRepicateRandomRHelper 0 _ selectedIndexes gen = (selectedIndexes, gen)
+nrRepicateRandomRHelper count range selectedIndexes gen = let
+   (newIndex, gen2) = randomR range gen
+   in if Set.member newIndex selectedIndexes
+         then nrRepicateRandomRHelper count range selectedIndexes gen2
+         else nrRepicateRandomRHelper (count-1) range (Set.insert newIndex
+            selectedIndexes) gen2
+
+diffSelectPure :: (RandomGen g) => Int -> Int -> g -> ([Int], g)
+diffSelectPure count max gen = let
+   (results, gen2) = nrRepicateRandomRHelper count (0, max-1) Set.empty gen
+   in ([ [1..max] !! i | i <- Set.toList results ], gen2)
+
+diffSelect :: Int -> Int -> IO [Int]
+diffSelect count max = do
+   gen <- getStdGen
+   let (results, newGen) = diffSelectPure count max gen
+      in do
+         setStdGen newGen
+         return results
+
+diff_select = diffSelect

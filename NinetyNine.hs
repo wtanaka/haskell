@@ -46,6 +46,7 @@ module NinetyNine(myLast,
    rnd_select,
    diff_select,
    combinations,
+   isPrime,
 ) where
 
 import Data.List
@@ -291,3 +292,11 @@ combinations num list
       len = length list
       a = head list
       as = tail list
+
+-- Problem 31
+isPrime :: Int -> Bool
+isPrime n | n < 1 = error "only positive numbers accepted"
+isPrime 1 = False
+isPrime 2 = True
+isPrime n = let ceil = ceiling (sqrt (fromIntegral n))
+   in all (0/=) [n `rem` k | k <- [2..ceil]]

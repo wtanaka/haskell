@@ -45,6 +45,7 @@ module NinetyNine(myLast,
    range,
    rnd_select,
    diff_select,
+   combinations,
 ) where
 
 import Data.List
@@ -266,3 +267,27 @@ diffSelect count max = do
          return results
 
 diff_select = diffSelect
+
+-- Problem 25
+-- Generate a random permutation of the elements of a list.
+-- Skipping for now
+
+-- Problem 26
+prependToAll :: a -> [[a]] -> [[a]]
+prependToAll _ [] = []
+prependToAll a (l : ls) = (a : l) : prependToAll a ls
+
+-- Generate the combinations of K distinct objects chosen from the N
+-- elements of a list
+combinations :: Int -> [a] -> [[a]]
+combinations _ [] = [[]]
+combinations 0 _ = [[]]
+combinations 1 as = map (:[]) as
+combinations num list
+   | num > len = []
+   | otherwise = prependToAll a (combinations (num - 1) as)
+      ++ combinations num as
+   where
+      len = length list
+      a = head list
+      as = tail list

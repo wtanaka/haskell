@@ -57,6 +57,14 @@ module NinetyNine(myLast,
    goldbach,
    goldbachList,
    goldbachList',
+   and',
+   or',
+   nand',
+   nor',
+   xor',
+   impl',
+   equ',
+   table,
 ) where
 
 import Control.Arrow
@@ -396,3 +404,27 @@ bothGreaterThan threshold (a, b) = a > threshold && b > threshold
 goldbachList' :: Int -> Int -> Int -> [(Int, Int)]
 goldbachList' low high threshold =
    filter (bothGreaterThan threshold) $ goldbachList low high
+
+-- Problem 46
+and' = (&&)
+or' = (||)
+nand' a b = not (a && b)
+nor' a b = not (a || b)
+xor' a b = (a && not b) || (b && not a)
+impl' a b = not (a && not b)
+equ' a b = (a && b) || (not a && not b)
+
+-- [a]^n gives the cross product of [a] with itself n times
+listExp :: [a] -> Int -> [[a]]
+listExp _ 0 = []
+listExp list 1 = map (:[]) list
+listExp list count =
+   concat [[x : perm | perm <- listExp list (count-1)] | x <- list]
+
+tableLine :: (Bool -> Bool -> Bool) -> Bool -> Bool -> String
+tableLine f x y = show x ++ " " ++ show y ++ " " ++ show (f x y) ++ "\n"
+
+table :: (Bool -> Bool -> Bool) -> String
+table function =
+   foldl (++) "" [tableLine function x y |
+      (x : y : []) <- listExp [True, False] 2]

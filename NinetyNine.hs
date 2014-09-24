@@ -54,6 +54,7 @@ module NinetyNine(myLast,
    prime_factors_mult,
    totient2,
    primesR,
+   goldbach,
 ) where
 
 import Control.Arrow
@@ -373,3 +374,12 @@ primesR low high
    | low > high = error "low limit must be at most equal to high limit"
    | low < 1 || high < 1 = error "inputs must be positive"
    | otherwise = [n | n <- [low..high], isPrime n]
+
+-- Problem 40
+goldbach :: Int -> (Int, Int)
+goldbach n
+   | odd n = error "n must be even"
+   | n <= 2 = error "n must be greater than 2"
+   | otherwise = let
+      ceil = quot n 2
+      in head $ filter (isPrime . snd) [(k, n - k) | k <- [2..ceil], isPrime k]

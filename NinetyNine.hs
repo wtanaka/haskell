@@ -65,6 +65,7 @@ module NinetyNine(myLast,
    impl',
    equ',
    table,
+   tablen,
 ) where
 
 import Control.Arrow
@@ -428,3 +429,21 @@ table :: (Bool -> Bool -> Bool) -> String
 table function =
    foldl (++) "" [tableLine function x y |
       (x : y : []) <- listExp [True, False] 2]
+
+-- Problem 47
+infixl 2 `or'`
+infixl 2 `nor'`
+infixl 3 `and'`
+infixl 3 `nand'`
+infixl 3 `xor'`
+infixl 3 `impl'`
+infixl 4 `equ'`
+
+-- Problem 48
+tableLinen :: ([Bool] -> Bool) -> [Bool] -> String
+tableLinen f x = concat [show a ++ " " | a <- x] ++ show (f x) ++ "\n"
+
+tablen :: Int -> ([Bool] -> Bool) -> String
+tablen nterms function =
+   foldl (++) "" [tableLinen function x |
+      x <- listExp [True, False] nterms]

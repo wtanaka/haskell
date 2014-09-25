@@ -67,6 +67,7 @@ module NinetyNine(myLast,
    table,
    tablen,
    gray,
+   cbalTree,
 ) where
 
 import Control.Arrow
@@ -452,3 +453,19 @@ tablen nterms function =
 -- Problem 49
 gray :: Int -> [String]
 gray = listExp "01"
+
+-- Problem 55
+data Tree a = Empty | Branch a (Tree a) (Tree a)
+   deriving (Show, Eq)
+
+leaf :: x -> Tree x
+leaf x = Branch x Empty Empty
+
+cbalTree :: Int -> Tree Char
+cbalTree 0 = Empty
+cbalTree 1 = leaf 'x'
+cbalTree n = let
+   thequot = quot (n-1) 2
+   in if even (n-1)
+      then Branch 'x' (cbalTree thequot) (cbalTree thequot)
+      else Branch 'x' (cbalTree (thequot+1)) (cbalTree thequot)

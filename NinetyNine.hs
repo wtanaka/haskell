@@ -68,6 +68,7 @@ module NinetyNine(myLast,
    tablen,
    gray,
    cbalTree,
+   symmetric,
 ) where
 
 import Control.Arrow
@@ -469,3 +470,14 @@ cbalTree n = let
    in if even (n-1)
       then Branch 'x' (cbalTree thequot) (cbalTree thequot)
       else Branch 'x' (cbalTree (thequot+1)) (cbalTree thequot)
+
+-- Problem 56
+mirror :: Tree a -> Tree a -> Bool
+mirror Empty Empty = True
+mirror Empty _ = False
+mirror _ Empty = False
+mirror (Branch _ ll lr) (Branch _ rl rr) = mirror ll rr && mirror lr rl
+
+symmetric :: Tree a -> Bool
+symmetric Empty = True
+symmetric (Branch _ ll lr) = mirror ll lr

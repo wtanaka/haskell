@@ -66,6 +66,7 @@ module NinetyNine(myLast,
    equ',
    table,
    tablen,
+   gray,
 ) where
 
 import Control.Arrow
@@ -447,3 +448,7 @@ tablen :: Int -> ([Bool] -> Bool) -> String
 tablen nterms function =
    foldl (++) "" [tableLinen function x |
       x <- listExp [True, False] nterms]
+
+-- Problem 49
+gray :: Int -> [String]
+gray = listExp "01"

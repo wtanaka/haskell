@@ -1,8 +1,14 @@
-all: lint test ProblemThirtyEight
+GHCFLAGS=-W -Werror
+BINARIES=ProblemThirtyEight.debug
+
+all: lint test $(BINARIES)
 
 # Profile with ./ProgramName +RTS -p
+%.debug: %.hs
+	ghc $(GHCFLAGS) -prof -fprof-auto -rtsopts $^
+
 %: %.hs
-	ghc -prof -fprof-auto -rtsopts $^
+	ghc $(GHCFLAGS) -O2 $^ && strip $@
 
 .PHONY: lint
 lint:
@@ -13,4 +19,4 @@ test:
 	./testsuite/runtests.sh
 
 clean:
-	rm -f *~ ProblemThirtyEight *.o *.prof *.hi
+	rm -f *~ $(BINARIES) *.o *.prof *.hi

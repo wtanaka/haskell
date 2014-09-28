@@ -5,7 +5,7 @@ all: lint test $(BINARIES)
 
 # Profile with ./ProgramName +RTS -p
 %.debug: %.hs
-	ghc $(GHCFLAGS) -prof -fprof-auto -rtsopts $^
+	ghc $(GHCFLAGS) -prof -fprof-auto -rtsopts $^ -o "$@"
 
 %: %.hs
 	ghc $(GHCFLAGS) -O2 $^ && strip $@

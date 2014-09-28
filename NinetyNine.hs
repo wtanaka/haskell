@@ -80,21 +80,21 @@ import System.Random (RandomGen, Random, randomR, getStdGen, setStdGen)
 myLast :: [a] -> a
 myLast [] = error "Empty list has no last element"
 myLast (x : []) = x
-myLast (x : xs) = myLast xs
+myLast (_ : xs) = myLast xs
 
 -- Problem 2
 myButLast :: [a] -> a
 myButLast [] = error "Empty list has no second to last element"
-myButLast (x : []) = error "One-item list has no second to last element"
-myButLast (x : y : []) = x
+myButLast (_ : []) = error "One-item list has no second to last element"
+myButLast (x : _ : []) = x
 myButLast x = myButLast (tail x)
 
 -- Problem 3
 elementAt :: [a] -> Int -> a
 elementAt [] _ = error "Empty list has no elements"
 elementAt (x : _) 0 = x
-elementAt [x] _ = error "Index out of bounds"
-elementAt (x : xs) number = elementAt xs (number-1)
+elementAt [_] _ = error "Index out of bounds"
+elementAt (_ : xs) number = elementAt xs (number-1)
 
 -- Problem 4
 increment :: Int -> a -> Int
@@ -189,7 +189,7 @@ dropHelper :: [a]
    -> Int -- skip
    -> [a]
 dropHelper [] _ _ = []
-dropHelper (x : xs) period 0 = dropHelper xs period (period-1)
+dropHelper (_ : xs) period 0 = dropHelper xs period (period-1)
 dropHelper (x : xs) period skip = x : dropHelper xs period (skip-1)
 
 -- Problem 17
@@ -207,9 +207,9 @@ slice :: [a]
    -> [a]
 slice _ start _ | start < 1 = error "Non-positive start"
 slice [] _ _ = error "Out of bounds"
-slice (x : xs) 1 1 = [x]
+slice (x : _) 1 1 = [x]
 slice (x : xs) 1 end = x : slice xs 1 (end-1)
-slice (x : xs) start end = slice xs (start-1) (end-1)
+slice (_ : xs) start end = slice xs (start-1) (end-1)
 
 -- Problem 19
 _plusRem :: Int -> Int -> Int
@@ -230,12 +230,15 @@ rotateHelper list listlength count =
 
 -- Problem 20
 removeAt :: Int -> [a] -> (a, [a])
+removeAt _ [] = error "Can't remove from empty list"
 removeAt 1 (x : xs) = (x, xs)
 removeAt index (x : xs) = let (removed, remainder) = removeAt (index-1) xs
    in (removed, x : remainder)
 
 -- Problem 21
 insertAt :: a -> [a] -> Int -> [a]
+insertAt thing [] 1 = [thing]
+insertAt _ [] _ = error "Can't insert into empty list"
 insertAt thing list 1 = thing : list
 insertAt thing (x : xs) pos = x : insertAt thing xs (pos-1)
 
@@ -249,7 +252,7 @@ range x y
 -- Problem 23
 -- Generate N random numbers in the range (a, a) with replacement
 replicateRandomR :: (RandomGen g, Random a) => Int -> (a, a) -> g -> ([a], g)
-replicateRandomR 0 range gen = ([], gen)
+replicateRandomR 0 _ gen = ([], gen)
 replicateRandomR count range gen = let
    (as, g1) = replicateRandomR (count-1) range gen
    (a, g2) = randomR range g1

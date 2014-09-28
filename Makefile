@@ -1,5 +1,5 @@
 GHCFLAGS=-W -Werror
-BINARIES=ProblemThirtyEight.debug
+BINARIES=Cat ProblemThirtyEight.debug
 
 all: lint test $(BINARIES)
 

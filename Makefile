@@ -1,7 +1,7 @@
 GHCFLAGS=-W -Werror
-BINARIES=Cat ProblemThirtyEight.debug
+BINARIES=Cat Wc ProblemThirtyEight.debug
 
-all: lint test $(BINARIES)
+all: lint $(BINARIES) test
 
 # Profile with ./ProgramName +RTS -p
 %.debug: %.hs
@@ -15,7 +15,7 @@ lint:
 	hlint .
 
 .PHONY: test
-test:
+test: $(BINARIES)
 	./testsuite/runtests.sh
 
 clean:

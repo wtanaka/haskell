@@ -1,18 +1,24 @@
 GHCFLAGS=-W -Werror
-BINARIES=Cat Wc \
-	ProblemThirtyEight.debug
+BINARIES=Cat.out Wc.out \
+	ProblemThirtyEight.debug.out \
+	ConstantMemory.debug.ps \
+	ConstantMemory.ps
 
+.PHONY: all
 all: lint $(BINARIES) test
 
 # Profile with ./ProgramName +RTS -h -p; hp2ps ProgName.hp
-%.debug: %.hs
+%.debug.out: %.hs
 	ghc $(GHCFLAGS) -prof -fprof-auto -rtsopts $^ -o "$@"
 
-%: %.hs
-	ghc $(GHCFLAGS) -O2 $^ && strip $@
+%.out: %.hs
+	ghc $(GHCFLAGS) -O2 -rtsopts $^ -o "$@" && strip $@
 
-%.debug.ps: %.debug
-	rm -f "$<".hp ; ./"$<" +RTS -h; hp2ps "$<".hp
+%.ps: %.out
+	rm -f "$<".hp ; ./"$<" +RTS -h; hp2ps -c "$<".hp
+
+%.prof: %.out
+	./"$<" +RTS -p
 
 .PHONY: lint
 lint:
@@ -23,4 +29,4 @@ test: $(BINARIES)
 	./testsuite/runtests.sh
 
 clean:
-	rm -f *~ $(BINARIES) *.o *.prof *.hi *.hp *.ps *.aux
+	rm -f *~ $(BINARIES) *.o *.prof *.hi *.hp *.ps *.aux *.out

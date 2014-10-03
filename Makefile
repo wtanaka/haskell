@@ -1,8 +1,12 @@
 GHCFLAGS=-W -Werror
 BINARIES=Cat.out Wc.out \
-	ProblemThirtyEight.debug.out \
-	ConstantMemory.debug.ps \
-	ConstantMemory.ps
+	Mem1.debug.ps \
+	Mem1.ps \
+	Mem2.debug.ps \
+	Mem2.ps \
+	Mem3.debug.ps \
+	Mem3.ps \
+	ProblemThirtyEight.debug.out
 
 .PHONY: all
 all: lint $(BINARIES) test
@@ -15,7 +19,7 @@ all: lint $(BINARIES) test
 	ghc $(GHCFLAGS) -O2 -rtsopts $^ -o "$@" && strip $@
 
 %.ps: %.out
-	rm -f "$<".hp ; ./"$<" +RTS -h; hp2ps -c "$<".hp
+	rm -f "$<".hp ; ./"$<" +RTS -h; hp2ps -c "$<".hp ; mv "$*".out.ps "$@"
 
 %.prof: %.out
 	./"$<" +RTS -p

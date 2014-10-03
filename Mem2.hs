@@ -18,38 +18,17 @@
 -- You should have received a copy of the GNU General Public License
 -- along with https://github.com/wtanaka/haskell .  If not, see
 -- <http://www.gnu.org/licenses/>.
-{-# OPTIONS_GHC -fno-warn-unused-binds #-}
-
-module Main(main) where
-
-asbs = 'a' : 'b' : asbs
 
 largenum = 10000000
 
-long = take largenum asbs
-varlong n = take n asbs
+-- long = take largenum [1..]
 
--- O(1) memory
--- test = print $ long !! (largenum-1)
+-- asbs = 'a' : 'b' : asbs
+-- long = take largenum asbs
 
--- O(1) memory
--- test = print $ length long
+long = replicate largenum 'a'
 
--- O(1) memory with -O2 O(N) memory without
---test = do
---   print $ long !! 9999999
---   print $ length long
-
--- O(1) memory without -O2, O(N) memory with -O2
---test = do
---   print $ varlong largenum !! (largenum-1)
---   print $ length $ varlong largenum
-
--- O(1) memory without -O2, O(N) memory with -O2
-test = do
-   print $ take 10 (varlong largenum)
-   print $ varlong largenum !! (largenum-1)
-   print $ length $ varlong largenum
-
-main :: IO ()
-main = test
+-- O(N) memory
+main = do
+   print $ long !! (largenum-1)
+   print $ length long

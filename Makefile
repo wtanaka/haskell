@@ -6,6 +6,7 @@ BINARIES=Cat.out Wc.out \
 	Mem2.ps \
 	Mem3.debug.ps \
 	Mem3.ps \
+	MutualTailRecursion.ps \
 	ProblemThirtyEight.debug.out
 
 .PHONY: all

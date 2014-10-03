@@ -1,4 +1,5 @@
 *~
+*.aux
 /dist
 *.hi
 /.hpc

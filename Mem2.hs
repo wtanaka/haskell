@@ -26,9 +26,10 @@ largenum = 10000000
 -- asbs = 'a' : 'b' : asbs
 -- long = take largenum asbs
 
-long = take largenum (repeat 'a')
+as = repeat 'a'
+long = take largenum as
 
 -- O(N) memory
 main = do
-   print $ long !! (largenum-1)
-   print $ length long
+   print (long !! (largenum-1))
+   print (length long)

@@ -22,8 +22,8 @@
 module Main(main) where
 
 largenum = 10000000
-varlong n = take n (repeat 'a')
+as = repeat 'a'
+varlong n = take n as
 main = do
-   print $ take 10 (varlong largenum)
-   print $ varlong largenum !! (largenum-1)
-   print $ length $ varlong largenum
+   print (varlong largenum !! (largenum-1))
+   print (length (varlong largenum))

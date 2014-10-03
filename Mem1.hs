@@ -22,13 +22,14 @@
 largenum = 10000000
 -- long = take largenum [1..]
 
-long = take largenum (repeat 'a')
+as = repeat 'a'
+long = take largenum as
 
 -- asbs = 'a' : 'b' : asbs
 -- long = take largenum asbs
 
 -- O(1) memory
-main = print $ long !! (largenum-1)
+main = print (long !! (largenum-1))
 
 -- O(1) memory
--- main = print $ length long
+-- main = print (length long)

@@ -63,6 +63,8 @@ _optionFunctionMap OutputWords = numWords
 
 _lf = fromIntegral (ord '\n')
 
+newtype WordCountAccum = WordCountAccum Int
+
 _optDescr :: [GetOpt.OptDescr Option]
 _optDescr = [
    GetOpt.Option "h" ["help"] (GetOpt.NoArg Help)
@@ -84,27 +86,29 @@ numLines = BSL.count _lf
 numBytes :: BSL.ByteString -> Int64
 numBytes = BSL.length
 
-_numWordsStartsWithSpace :: BSL.ByteString -> Int64
-_numWordsStartsWithSpace bs = let
+_numWordsStartsWithSpace :: BSL.ByteString -> WordCountAccum -> Int64
+_numWordsStartsWithSpace bs (WordCountAccum acc) = let
    firstWordIdx = BSL.findIndex (not . Word8.isSpace) bs
       in case firstWordIdx of
-         Nothing -> 0
-         Just idx -> _numWordsStartsWithNonSpace $ BSL.drop idx bs
+         Nothing -> fromIntegral acc
+         Just idx ->
+            _numWordsStartsWithNonSpace (BSL.drop idx bs) (WordCountAccum acc)
 
-_numWordsStartsWithNonSpace :: BSL.ByteString -> Int64
-_numWordsStartsWithNonSpace bs
-   | BSL.null bs = 0
+_numWordsStartsWithNonSpace :: BSL.ByteString -> WordCountAccum -> Int64
+_numWordsStartsWithNonSpace bs (WordCountAccum acc)
+   | BSL.null bs = fromIntegral acc
    | otherwise = let firstSpaceIdx = BSL.findIndex Word8.isSpace bs
       in case firstSpaceIdx of
-         Nothing -> 1
-         Just idx -> 1 + _numWordsStartsWithSpace (BSL.drop idx bs)
+         Nothing -> fromIntegral (acc + 1)
+         Just idx ->
+            _numWordsStartsWithSpace (BSL.drop idx bs) (WordCountAccum (acc + 1))
 
 numWords :: BSL.ByteString -> Int64
 numWords bs
    | BSL.null bs = 0
    | otherwise = (if Word8.isSpace (BSL.index bs 0)
       then _numWordsStartsWithSpace
-      else _numWordsStartsWithNonSpace) bs
+      else _numWordsStartsWithNonSpace) bs (WordCountAccum 0)
 
 leftPadUntil :: (Integral a, PrintfArg a) => Int -> a -> Builder
 leftPadUntil n value = BSB.string7 $ printf (concat ["%", show n, "d"]) value

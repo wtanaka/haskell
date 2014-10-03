@@ -68,6 +68,30 @@ _countAMonad (x : xs) = do
 countAsMonad :: String -> Int
 countAsMonad xs = Strict.execState (_countAMonad xs) 0
 
+-- Mutual Recursion
+_countNonAsMutual1 :: String -> Int
+_countNonAsMutual1 [] = 0
+_countNonAsMutual1 xs
+   | 'a' == head xs = countAsMutual1 xs
+   | otherwise = _countNonAsMutual1 $ tail xs
+
+countAsMutual1 :: String -> Int
+countAsMutual1 [] = 0
+countAsMutual1 ('a' : xs) = 1 + countAsMutual1 xs
+countAsMutual1 xs = _countNonAsMutual1 xs
+
+-- Mutual Tail Recursion
+_countNonAsMutual2 :: String -> Int -> Int
+_countNonAsMutual2 [] acc = acc
+_countNonAsMutual2 xs acc
+   | 'a' == head xs = countAsMutual2 xs acc
+   | otherwise = _countNonAsMutual2 (tail xs) acc
+
+countAsMutual2 :: String -> Int -> Int
+countAsMutual2 [] acc = acc
+countAsMutual2 ('a' : xs) acc = countAsMutual2 xs (acc+1)
+countAsMutual2 xs acc = _countNonAsMutual2 xs acc
+
 asbs = 'a' : 'b' : asbs
 
 short = take 10 asbs
@@ -85,7 +109,12 @@ main = do
    -- stack overflow
    -- print $ countABsBad long
    print $ countAsMonad short
-   print $ countAsMonad (longhelp asbs 1999999)
+   print $ countAsMonad (longhelp asbs 19999999)
    print $ countABsMonad short
    print $ countABsMonad long
-   print $ countABsMonad (longhelp asbs 1999999)
+   print $ countABsMonad (longhelp asbs 19999999)
+   print $ countAsMutual1 short
+   -- stack overflow
+   -- print $ countAsMutual1 (longhelp asbs 19999999)
+   print $ countAsMutual2 short 0
+   print $ countAsMutual2 (longhelp asbs 19999999) 0

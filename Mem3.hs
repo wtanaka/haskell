@@ -21,9 +21,8 @@
 
 module Main(main) where
 
-asbs = 'a' : 'b' : asbs
 largenum = 10000000
-varlong n = take n asbs
+varlong n = take n (repeat 'a')
 main = do
    print $ take 10 (varlong largenum)
    print $ varlong largenum !! (largenum-1)

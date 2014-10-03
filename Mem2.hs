@@ -26,7 +26,7 @@ largenum = 10000000
 -- asbs = 'a' : 'b' : asbs
 -- long = take largenum asbs
 
-long = replicate largenum 'a'
+long = take largenum (repeat 'a')
 
 -- O(N) memory
 main = do

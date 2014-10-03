@@ -20,9 +20,9 @@
 -- <http://www.gnu.org/licenses/>.
 
 largenum = 10000000
-long = take largenum [1..]
+-- long = take largenum [1..]
 
--- long = take largenum (repeat 'a')
+long = take largenum (repeat 'a')
 
 -- asbs = 'a' : 'b' : asbs
 -- long = take largenum asbs
